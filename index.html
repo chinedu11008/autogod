@@ -11,7 +11,15 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    
+
+<div id="fb-root"></div>
+
+<!-- =====================================================
+     HEADER / NAVIGATION
+     Fixed top bar: mobile menu button, logo, nav links + the
+     vehicle search bar, and the cart icon / login button /
+     profile chip (login state swap handled by js/ui.js).
+     ===================================================== -->
 <header class="header">
 
     <div id="menu-btn" class="fas fa-bars"></div>
@@ -25,44 +33,90 @@
         <a href="#featured">featured</a>
         <a href="#reviews">reviews</a>
         <a href="#contact">contact</a>
+        <form class="nav-search" id="nav-search-form">
+            <input type="text" id="nav-search-input" placeholder="search vehicles..." autocomplete="off">
+            <button type="submit" aria-label="search"><i class="fas fa-search"></i></button>
+        </form>
     </nav>
 
-    <div id="login-btn">
-        <button class="btn">login</button>
-        <i class="far fa-user"></i>
+    <div class="header-actions">
+
+        <!-- Protected: viewing the cart requires an account, same pattern as
+             every other gated link on the site (see js/auth.js: requireLoginForNav) -->
+        <a href="cart.html" id="cart-btn" onclick="return requireLoginForNav(event, 'cart.html')">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count" class="badge">0</span>
+        </a>
+
+        <div id="login-btn">
+            <button class="btn">login</button>
+            <i class="far fa-user"></i>
+        </div>
+
+        <div id="profile-chip" class="profile-chip">
+            <a href="profile.html" class="profile-link">
+                <span id="profile-avatar" class="avatar-circle"></span>
+                <span id="profile-name">User</span>
+            </a>
+            <button id="logout-btn" class="logout-icon-btn" title="logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+
     </div>
 
 </header> 
     
+<!-- =====================================================
+     LOGIN / SIGNUP MODAL
+     Hidden by default (toggled via .active — see script.js /
+     js/layout.js), reused for every login-gated action on the
+     site. One form does double duty as both login and signup;
+     js/auth.js: toggleAuthMode() swaps which fields/labels show.
+     ===================================================== -->
 <div class="login-form-container">
 
     <span id="close-login-form" class="fas fa-times"></span>
 
-    <form action="">
-        <h3>user login</h3>
-        <input type="email" placeholder="email" class="box">
-        <input type="password" placeholder="password" class="box">
-        <p> forget your password <a href="#">click here</a> </p>
-        <input type="submit" value="login" class="btn">
+    <form action="" id="auth-form" data-mode="login">
+        <h3 id="auth-heading">user login</h3>
+        <input type="text" placeholder="full name" class="box" id="fullname-field" name="fullname">
+        <input type="email" placeholder="email" class="box" name="email" required>
+        <input type="password" placeholder="password" class="box" name="password" required>
+        <p id="forgot-row"> forget your password <a href="#" id="forgot-password-link">click here</a> </p>
+        <input type="submit" value="login" class="btn" id="auth-submit">
         <p>or login with</p>
         <div class="buttons">
-            <a href="#" class="btn"> google </a>
-            <a href="#" class="btn"> facebook </a>
+            <a href="#" class="btn" id="google-login-btn"> google </a>
+            <a href="#" class="btn" id="facebook-login-btn"> facebook </a>
         </div>
-        <p> don't have an account <a href="#">create one</a> </p>
+        <p id="toggle-auth-row"> don't have an account <a href="#" id="toggle-auth-mode">create one</a> </p>
     </form>
+    <div id="google-btn-host"></div>
 
 </div>
 
+<!-- =====================================================
+     HOME / HERO
+     Full-height intro with the parallax car imagery (see
+     script.js: .home-parallax mouse-move effect) and the
+     gated "explore cars" call-to-action.
+     ===================================================== -->
 <section class="home" id="home">
 
     <h3 data-speed="-2" class="home-parallax">find your car</h3>
 
     <img data-speed="5" class="home-parallax" src="image/home-img.png" alt="">
 
-    <a data-speed="7" href="#" class="btn home-parallax">explore cars</a>
+    <!-- Protected CTA: "explore cars" is the main hero call-to-action. Logged
+         out, it opens the login/signup modal and remembers vehicles.html as
+         the destination; logged in, it goes straight there. -->
+    <a data-speed="7" href="vehicles.html" class="btn home-parallax" onclick="return requireLoginForNav(event, 'vehicles.html')">explore cars</a>
 </section><br><br><br><br><br><br>
 
+<!-- =====================================================
+     QUICK STATS ROW
+     Small trust-building numbers (cars sold, branches, etc.)
+     directly under the hero.
+     ===================================================== -->
 <section class="icons-container">
 
     <div class="icons">
@@ -99,107 +153,131 @@
 
 </section>
 
+<!-- =====================================================
+     POPULAR VEHICLES
+     Category quick-links (gated) + a Swiper carousel of 6
+     cars (listingGroup: "popular" in js/cars-data.js), with
+     functional prev/next arrows and a gated "See More" button
+     linking into vehicles.html.
+     ===================================================== -->
 <section class="vehicles" id="vehicles">
 
     <h1 class="heading"> popular <span>vehicles</span> </h1>
+
+    <div class="category-chips">
+        <a href="vehicles.html?category=SUV" class="category-chip" onclick="return requireLoginForNav(event, 'vehicles.html?category=SUV')">SUV</a>
+        <a href="vehicles.html?category=Sedan" class="category-chip" onclick="return requireLoginForNav(event, 'vehicles.html?category=Sedan')">sedan</a>
+        <a href="vehicles.html?category=Coupe" class="category-chip" onclick="return requireLoginForNav(event, 'vehicles.html?category=Coupe')">coupe</a>
+        <a href="vehicles.html?category=Convertible" class="category-chip" onclick="return requireLoginForNav(event, 'vehicles.html?category=Convertible')">convertible</a>
+        <a href="vehicles.html?category=Truck" class="category-chip" onclick="return requireLoginForNav(event, 'vehicles.html?category=Truck')">truck</a>
+        <a href="vehicles.html?category=Electric" class="category-chip" onclick="return requireLoginForNav(event, 'vehicles.html?category=Electric')">electric</a>
+        <a href="vehicles.html?category=Hatchback" class="category-chip" onclick="return requireLoginForNav(event, 'vehicles.html?category=Hatchback')">hatchback</a>
+        <a href="vehicles.html?category=Minivan" class="category-chip" onclick="return requireLoginForNav(event, 'vehicles.html?category=Minivan')">minivan</a>
+    </div>
 
     <div class="swiper vehicles-slider">
 
         <div class="swiper-wrapper">
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="vehicle-1"><i class="far fa-heart"></i></button>
                 <img src="image/vehicle-1.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
-                    <div class="price"> <span>price : </span> $62,000/- </div>
+                    <h3>Horizon GT</h3>
+                    <div class="price"> <span>price : </span> $68,500/- </div>
                     <p>
                         new
-                        <span class="fas fa-circle"></span> 2021
+                        <span class="fas fa-circle"></span> 2024
                         <span class="fas fa-circle"></span> automatic
                         <span class="fas fa-circle"></span> petrol
-                        <span class="fas fa-circle"></span> 183mph
+                        <span class="fas fa-circle"></span> 189mph
                     </p>
-                    <a href="#" class="btn">check out</a>
+                    <a href="product.html?id=vehicle-1" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=vehicle-1')">check out</a>
                 </div>
             </div>
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="vehicle-2"><i class="far fa-heart"></i></button>
                 <img src="image/vehicle-2.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
-                    <div class="price"> <span>price : </span> $62,000/- </div>
+                    <h3>Voyager SUV</h3>
+                    <div class="price"> <span>price : </span> $54,900/- </div>
                     <p>
                         new
-                        <span class="fas fa-circle"></span> 2021
+                        <span class="fas fa-circle"></span> 2024
                         <span class="fas fa-circle"></span> automatic
-                        <span class="fas fa-circle"></span> petrol
-                        <span class="fas fa-circle"></span> 183mph
+                        <span class="fas fa-circle"></span> hybrid
+                        <span class="fas fa-circle"></span> 130mph
                     </p>
-                    <a href="#" class="btn">check out</a>
+                    <a href="product.html?id=vehicle-2" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=vehicle-2')">check out</a>
                 </div>
             </div>
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="vehicle-3"><i class="far fa-heart"></i></button>
                 <img src="image/vehicle-3.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
-                    <div class="price"> <span>price : </span> $62,000/- </div>
+                    <h3>Falcon Roadster</h3>
+                    <div class="price"> <span>price : </span> $72,300/- </div>
                     <p>
                         new
-                        <span class="fas fa-circle"></span> 2021
+                        <span class="fas fa-circle"></span> 2023
                         <span class="fas fa-circle"></span> automatic
                         <span class="fas fa-circle"></span> petrol
-                        <span class="fas fa-circle"></span> 183mph
+                        <span class="fas fa-circle"></span> 175mph
                     </p>
-                    <a href="#" class="btn">check out</a>
+                    <a href="product.html?id=vehicle-3" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=vehicle-3')">check out</a>
                 </div>
             </div>
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="vehicle-4"><i class="far fa-heart"></i></button>
                 <img src="image/vehicle-4.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
-                    <div class="price"> <span>price : </span> $62,000/- </div>
+                    <h3>Terra X</h3>
+                    <div class="price"> <span>price : </span> $61,200/- </div>
                     <p>
                         new
-                        <span class="fas fa-circle"></span> 2021
+                        <span class="fas fa-circle"></span> 2024
                         <span class="fas fa-circle"></span> automatic
-                        <span class="fas fa-circle"></span> petrol
-                        <span class="fas fa-circle"></span> 183mph
+                        <span class="fas fa-circle"></span> diesel
+                        <span class="fas fa-circle"></span> 118mph
                     </p>
-                    <a href="#" class="btn">check out</a>
+                    <a href="product.html?id=vehicle-4" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=vehicle-4')">check out</a>
                 </div>
             </div>
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="vehicle-5"><i class="far fa-heart"></i></button>
                 <img src="image/vehicle-5.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
-                    <div class="price"> <span>price : </span> $62,000/- </div>
+                    <h3>Volt-E</h3>
+                    <div class="price"> <span>price : </span> $58,750/- </div>
                     <p>
                         new
-                        <span class="fas fa-circle"></span> 2021
+                        <span class="fas fa-circle"></span> 2024
                         <span class="fas fa-circle"></span> automatic
-                        <span class="fas fa-circle"></span> petrol
-                        <span class="fas fa-circle"></span> 183mph
+                        <span class="fas fa-circle"></span> electric
+                        <span class="fas fa-circle"></span> 155mph
                     </p>
-                    <a href="#" class="btn">check out</a>
+                    <a href="product.html?id=vehicle-5" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=vehicle-5')">check out</a>
                 </div>
             </div>
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="vehicle-6"><i class="far fa-heart"></i></button>
                 <img src="image/vehicle-6.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
-                    <div class="price"> <span>price : </span> $62,000/- </div>
+                    <h3>Ranger Pro</h3>
+                    <div class="price"> <span>price : </span> $49,999/- </div>
                     <p>
-                        new
-                        <span class="fas fa-circle"></span> 2021
-                        <span class="fas fa-circle"></span> automatic
-                        <span class="fas fa-circle"></span> petrol
-                        <span class="fas fa-circle"></span> 183mph
+                        used
+                        <span class="fas fa-circle"></span> 2023
+                        <span class="fas fa-circle"></span> manual
+                        <span class="fas fa-circle"></span> diesel
+                        <span class="fas fa-circle"></span> 112mph
                     </p>
-                    <a href="#" class="btn">check out</a>
+                    <a href="product.html?id=vehicle-6" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=vehicle-6')">check out</a>
                 </div>
             </div>
 
@@ -207,10 +285,23 @@
 
         <div class="swiper-pagination"></div>
 
+        <button class="slider-nav-btn prev" id="vehicles-prev" aria-label="previous vehicles"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-nav-btn next" id="vehicles-next" aria-label="next vehicles"><i class="fas fa-chevron-right"></i></button>
+
+    </div>
+
+    <div class="see-more-row">
+        <a href="vehicles.html?group=popular" class="btn" onclick="return requireLoginForNav(event, 'vehicles.html?group=popular')">see more vehicles</a>
     </div>
 
 </section>
 
+<!-- =====================================================
+     SERVICES
+     Six informational boxes (sales, repair, insurance, etc.)
+     — not tied to the login gating system, purely marketing
+     content.
+     ===================================================== -->
 <section class="services" id="services">
 
     <h1 class="heading"> our <span>services</span> </h1>
@@ -220,42 +311,42 @@
         <div class="box">
             <i class="fas fa-car"></i>
             <h3>car selling</h3>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, nisi.</p>
+            <p>From trade-ins to certified pre-owned listings, our sales team helps you find the right AutoGod vehicle and get you driving the same day.</p>
             <a href="#" class="btn"> read more</a>
         </div>
 
         <div class="box">
             <i class="fas fa-tools"></i>
             <h3>parts repair</h3>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, nisi.</p>
+            <p>Our certified technicians handle everything from brake pads to full engine diagnostics, using genuine AutoGod parts on every job.</p>
             <a href="#" class="btn"> read more</a>
         </div>
 
         <div class="box">
             <i class="fas fa-car-crash"></i>
             <h3>car insurance</h3>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, nisi.</p>
+            <p>We partner with trusted providers to get you competitive coverage quotes in minutes, right when you finance or lease your vehicle.</p>
             <a href="#" class="btn"> read more</a>
         </div>
 
         <div class="box">
             <i class="fas fa-car-battery"></i>
             <h3>battery replacement</h3>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, nisi.</p>
+            <p>Free battery health checks with every service visit, plus same-day replacement so you're never left stranded.</p>
             <a href="#" class="btn"> read more</a>
         </div>
 
         <div class="box">
             <i class="fas fa-gas-pump"></i>
             <h3>oil change</h3>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, nisi.</p>
+            <p>Quick, no-appointment-needed oil changes using manufacturer-approved fluids to keep your engine running smoothly.</p>
             <a href="#" class="btn"> read more</a>
         </div>
 
         <div class="box">
             <i class="fas fa-headset"></i>
             <h3>24/7 support</h3>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, nisi.</p>
+            <p>Our roadside and customer support line is staffed around the clock, because car trouble doesn't wait for business hours.</p>
             <a href="#" class="btn"> read more</a>
         </div>
 
@@ -263,6 +354,14 @@
 
 </section>
 
+<!-- =====================================================
+     FEATURED CARS
+     Same pattern as POPULAR VEHICLES above, but for the 8
+     cars with listingGroup: "featured". Note: this used to be
+     split across two separate swiper containers in the
+     original template (only the first 4 cards ever worked as
+     a carousel) — now one continuous swiper-wrapper with all 8.
+     ===================================================== -->
 <section class="featured" id="featured">
 
     <h1 class="heading"> <span>featured</span> cars </h1>
@@ -272,9 +371,10 @@
        <div class="swiper-wrapper">
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="car-1"><i class="far fa-heart"></i></button>
                 <img src="image/car-1.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
+                    <h3>Nova Sedan</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -282,15 +382,16 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star-half-alt"></i>
                     </div>
-                    <div class="price">$55,000/-</div>
-                    <a href="#" class="btn">check out</a>
+                    <div class="price">$42,500/-</div>
+                    <a href="product.html?id=car-1" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=car-1')">check out</a>
                 </div>
             </div>
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="car-2"><i class="far fa-heart"></i></button>
                 <img src="image/car-2.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
+                    <h3>Zenith Luxury</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -298,15 +399,16 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star-half-alt"></i>
                     </div>
-                    <div class="price">$55,000/-</div>
-                    <a href="#" class="btn">check out</a>
+                    <div class="price">$89,900/-</div>
+                    <a href="product.html?id=car-2" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=car-2')">check out</a>
                 </div>
             </div>
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="car-3"><i class="far fa-heart"></i></button>
                 <img src="image/car-3.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
+                    <h3>Rally X5</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -314,15 +416,16 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star-half-alt"></i>
                     </div>
-                    <div class="price">$55,000/-</div>
-                    <a href="#" class="btn">check out</a>
+                    <div class="price">$37,800/-</div>
+                    <a href="product.html?id=car-3" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=car-3')">check out</a>
                 </div>
             </div>
 
             <div class="swiper-slide box">
+                <button class="wishlist-btn" data-id="car-4"><i class="far fa-heart"></i></button>
                 <img src="image/car-4.png" alt="">
                 <div class="content">
-                    <h3>new model</h3>
+                    <h3>Cascade Hybrid</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -330,25 +433,16 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star-half-alt"></i>
                     </div>
-                    <div class="price">$55,000/-</div>
-                    <a href="#" class="btn">check out</a>
+                    <div class="price">$46,300/-</div>
+                    <a href="product.html?id=car-4" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=car-4')">check out</a>
                 </div>
             </div>
 
-       </div>
-
-       <div class="swiper-pagination"></div>
-
-    </div>
-
-    <div class="swiper featured-slider">
-
-        <div class="swiper-wrapper">
- 
-             <div class="swiper-slide box">
+            <div class="swiper-slide box">
+                 <button class="wishlist-btn" data-id="car-5"><i class="far fa-heart"></i></button>
                  <img src="image/car-5.png" alt="">
                  <div class="content">
-                     <h3>new model</h3>
+                     <h3>Titan 4x4</h3>
                      <div class="stars">
                          <i class="fas fa-star"></i>
                          <i class="fas fa-star"></i>
@@ -356,15 +450,16 @@
                          <i class="fas fa-star"></i>
                          <i class="fas fa-star-half-alt"></i>
                      </div>
-                     <div class="price">$55,000/-</div>
-                     <a href="#" class="btn">check out</a>
+                     <div class="price">$55,600/-</div>
+                     <a href="product.html?id=car-5" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=car-5')">check out</a>
                  </div>
              </div>
  
              <div class="swiper-slide box">
+                 <button class="wishlist-btn" data-id="car-6"><i class="far fa-heart"></i></button>
                  <img src="image/car-6.png" alt="">
                  <div class="content">
-                     <h3>new model</h3>
+                     <h3>Comet GTX</h3>
                      <div class="stars">
                          <i class="fas fa-star"></i>
                          <i class="fas fa-star"></i>
@@ -372,15 +467,16 @@
                          <i class="fas fa-star"></i>
                          <i class="fas fa-star-half-alt"></i>
                      </div>
-                     <div class="price">$55,000/-</div>
-                     <a href="#" class="btn">check out</a>
+                     <div class="price">$64,200/-</div>
+                     <a href="product.html?id=car-6" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=car-6')">check out</a>
                  </div>
              </div>
  
              <div class="swiper-slide box">
+                 <button class="wishlist-btn" data-id="car-7"><i class="far fa-heart"></i></button>
                  <img src="image/car-7.png" alt="">
                  <div class="content">
-                     <h3>new model</h3>
+                     <h3>Aura Minivan</h3>
                      <div class="stars">
                          <i class="fas fa-star"></i>
                          <i class="fas fa-star"></i>
@@ -388,15 +484,16 @@
                          <i class="fas fa-star"></i>
                          <i class="fas fa-star-half-alt"></i>
                      </div>
-                     <div class="price">$55,000/-</div>
-                     <a href="#" class="btn">check out</a>
+                     <div class="price">$39,400/-</div>
+                     <a href="product.html?id=car-7" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=car-7')">check out</a>
                  </div>
              </div>
  
              <div class="swiper-slide box">
+                 <button class="wishlist-btn" data-id="car-8"><i class="far fa-heart"></i></button>
                  <img src="image/car-8.png" alt="">
                  <div class="content">
-                     <h3>new model</h3>
+                     <h3>Blitz Turbo</h3>
                      <div class="stars">
                          <i class="fas fa-star"></i>
                          <i class="fas fa-star"></i>
@@ -404,31 +501,49 @@
                          <i class="fas fa-star"></i>
                          <i class="fas fa-star-half-alt"></i>
                      </div>
-                     <div class="price">$55,000/-</div>
-                     <a href="#" class="btn">check out</a>
+                     <div class="price">$58,000/-</div>
+                     <a href="product.html?id=car-8" class="btn" onclick="return requireLoginForNav(event, 'product.html?id=car-8')">check out</a>
                  </div>
              </div>
  
         </div>
  
         <div class="swiper-pagination"></div>
+
+        <button class="slider-nav-btn prev" id="featured-prev" aria-label="previous featured cars"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-nav-btn next" id="featured-next" aria-label="next featured cars"><i class="fas fa-chevron-right"></i></button>
  
      </div>
 
+    <div class="see-more-row">
+        <a href="vehicles.html?group=featured" class="btn" onclick="return requireLoginForNav(event, 'vehicles.html?group=featured')">see more featured cars</a>
+    </div>
+
 </section>
 
+<!-- =====================================================
+     NEWSLETTER
+     "Subscribe" — explicitly NEVER gated behind login (see
+     js/contact.js: handleNewsletterSubmit). Local-only, just
+     records the email in localStorage.
+     ===================================================== -->
 <section class="newsletter">
     
     <h3>subscribe for latest updates</h3>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, suscipit.</p>
+    <p>Be the first to hear about new arrivals, seasonal offers, and dealership events — straight to your inbox, no spam.</p>
 
-   <form action="">
-        <input type="email" placeholder="enter your email">
+   <form action="" id="newsletter-form">
+        <input type="email" placeholder="enter your email" required>
         <input type="submit" value="subscribe">
    </form>
 
 </section>
 
+<!-- =====================================================
+     REVIEWS / TESTIMONIALS
+     Static Swiper carousel, no login gating, no e-commerce
+     data — just marketing content.
+     ===================================================== -->
 <section class="reviews" id="reviews">
 
     <h1 class="heading"> client's <span>review</span> </h1>
@@ -440,8 +555,8 @@
             <div class="swiper-slide box">
                 <img src="image/pic-1.png" alt="">
                 <div class="content">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam incidunt quod praesentium iusto id autem possimus assumenda at ut saepe.</p>
-                    <h3>john deo</h3>
+                    <p>The whole process was quicker than I expected. I found the SUV I wanted, got a fair trade-in value, and drove off the lot that same afternoon.</p>
+                    <h3>Marcus Bello</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -455,8 +570,8 @@
             <div class="swiper-slide box">
                 <img src="image/pic-2.png" alt="">
                 <div class="content">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam incidunt quod praesentium iusto id autem possimus assumenda at ut saepe.</p>
-                    <h3>john deo</h3>
+                    <p>I was nervous about financing, but the team walked me through every option and got me a rate I was actually happy with. Highly recommend.</p>
+                    <h3>Aisha Grant</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -470,8 +585,8 @@
             <div class="swiper-slide box">
                 <img src="image/pic-3.png" alt="">
                 <div class="content">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam incidunt quod praesentium iusto id autem possimus assumenda at ut saepe.</p>
-                    <h3>john deo</h3>
+                    <p>Booked a test drive online and my car was ready when I arrived. No pressure, no games, just honest answers to every question I had.</p>
+                    <h3>Daniel Okafor</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -485,8 +600,8 @@
             <div class="swiper-slide box">
                 <img src="image/pic-4.png" alt="">
                 <div class="content">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam incidunt quod praesentium iusto id autem possimus assumenda at ut saepe.</p>
-                    <h3>john deo</h3>
+                    <p>Six months in and my car is still running perfectly. Their service team has been just as helpful after the sale as they were before it.</p>
+                    <h3>Priya Anand</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -500,8 +615,8 @@
             <div class="swiper-slide box">
                 <img src="image/pic-5.png" alt="">
                 <div class="content">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam incidunt quod praesentium iusto id autem possimus assumenda at ut saepe.</p>
-                    <h3>john deo</h3>
+                    <p>Traded in my old truck for a Ranger Pro and couldn't be happier. The staff clearly know their vehicles inside and out.</p>
+                    <h3>Lucas Ferreira</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -515,8 +630,8 @@
             <div class="swiper-slide box">
                 <img src="image/pic-6.png" alt="">
                 <div class="content">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam incidunt quod praesentium iusto id autem possimus assumenda at ut saepe.</p>
-                    <h3>john deo</h3>
+                    <p>From browsing online to picking up the keys, everything felt transparent. This is the third car I've bought from AutoGod, and it won't be the last.</p>
+                    <h3>Emily Chen</h3>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -535,6 +650,13 @@
 
 </section>
 
+<!-- =====================================================
+     CONTACT
+     "Send Message" — explicitly NEVER gated behind login.
+     Posts to Formspree (see js/contact.js + AUTOGOD_CONFIG.
+     FORMSPREE_CONTACT_URL in js/config.js) so it lands in a
+     real inbox with zero backend of our own.
+     ===================================================== -->
 <section class="contact" id="contact">
 
     <h1 class="heading"><span>contact</span> us</h1>
@@ -542,12 +664,15 @@
     <div class="row">
         <iframe  class="map" width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=udofia%20street,%20eket,%20nigeria&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" allowfullscreen=""></iframe>
 
-        <form action="">
+        <!-- Sends to Formspree (js/contact.js submits this via fetch() for a
+             no-reload experience; the action/method below are a plain-HTML
+             fallback in case JavaScript is ever unavailable) -->
+        <form action="https://formspree.io/f/xrpgjjao" method="POST" id="contact-form">
             <h3>get in touch</h3>
-            <input type="text" placeholder="your name" class="box">
-            <input type="email" placeholder="your email" class="box">
-            <input type="tel" placeholder="subject" class="box">
-            <textarea placeholder="your message" class="box" cols="30" rows="10"></textarea>
+            <input type="text" placeholder="your name" class="box" name="name" required>
+            <input type="email" placeholder="your email" class="box" name="email" required>
+            <input type="text" placeholder="subject" class="box" name="subject">
+            <textarea placeholder="your message" class="box" cols="30" rows="10" name="message" required></textarea>
             <input type="submit" value="send message" class="btn">
         </form>
 
@@ -555,6 +680,11 @@
 
 </section>
 
+<!-- =====================================================
+     FOOTER
+     Branches / quick links / contact info / social — static
+     content, shared (nearly) verbatim across every page.
+     ===================================================== -->
 <section class="footer" id="footer">
 
     <div class="box-container">
@@ -582,12 +712,12 @@
             <h3>contact info</h3>
             <a href="#"> <i class="fas fa-phone"></i> +123-456-7890 </a>
             <a href="#"> <i class="fas fa-phone"></i> +111-222-3333 </a>
-            <a href="#" style="text-transform: none;"> <i class="fas fa-envelope"></i>anakorchinedu93@gmail.com </a>
+            <a href="mailto:anakorchinedu93@gmail.com" style="text-transform: none;"> <i class="fas fa-envelope"></i>anakorchinedu93@gmail.com </a>
             <a href="#"> <i class="fas fa-map-marker-alt"></i>akwa ibom, nigeria</a>
         </div>
 
         <div class="box">
-            <h3>contact info</h3>
+            <h3>follow us</h3>
             <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
             <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
             <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
@@ -599,6 +729,25 @@
     <div class="credit">all rights reserved </div>
 
 </section>
+<!-- =====================================================
+     SCRIPTS
+     Load order matters: config → data → shared UI helpers →
+     auth → shop → contact → nav-search, THEN the third-party
+     SDKs (Google/Facebook/EmailJS/Swiper), THEN this page's
+     own script.js last, since it assumes the Swiper library
+     and all of the DOM above are already in place.
+     ===================================================== -->
+<script src="js/config.js"></script>
+<script src="js/cars-data.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/nav-search.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer onload="initGoogleSignIn()"></script>
+<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
 <script src="./script.js"></script>

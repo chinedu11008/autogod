@@ -1,5 +1,23 @@
+/* =========================================================
+   AutoGod — Original template stylesheet
+   =========================================================
+   This is the site's original design system: colours, fonts,
+   the fixed header/nav, the homepage sections (hero, stats,
+   vehicle sliders, services, newsletter, reviews, contact),
+   the footer, and the original responsive breakpoints.
+   Nothing in this section has been redesigned — everything
+   built on top of it (starting a bit over a thousand lines
+   down, clearly marked "AutoGod — Added for...") reuses these
+   same variables and component patterns rather than inventing
+   new ones, so new pages stay visually consistent.
+   ========================================================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
 
+/* ---------- Design tokens ----------
+   Every colour/shadow/border used across the whole site (both
+   original and added) is one of these variables — change a
+   value here and it updates everywhere at once. */
 :root{
     --yellow:#f9d806;
     --light-yellow:#ffee80;
@@ -10,6 +28,7 @@
     --back:#000;
 }
 
+/* ---------- Global reset + base page setup ---------- */
 *{
     font-family: 'Poppins', sans-serif;
     margin:0; padding:0;
@@ -29,10 +48,16 @@ html{
     scroll-behavior: smooth;
 }
 
+/* Default horizontal padding for every top-level <section> —
+   individual sections override just what they need on top of this. */
 section{
     padding:2rem 9%;
 }
 
+/* ---------- Reusable: section headings ----------
+   The big centred "popular <span>vehicles</span>" style heading
+   used at the top of most sections — the <span> gets the yellow
+   colour + underline via .heading span below. */
 .heading{
     padding-bottom: 2rem;
     text-align: center;
@@ -56,6 +81,10 @@ section{
     clip-path: polygon(0 90%, 100% 80%, 100% 100%, 0% 100%);
 }
 
+/* ---------- Reusable: primary button ----------
+   The single yellow pill-button style used for every call-to-
+   action across the whole site — "check out", "login", "add to
+   cart", "see more", etc. all share this one class. */
 .btn{
     display: inline-block;
     margin-top: 1rem;
@@ -73,6 +102,12 @@ section{
     background:var(--yellow);
 }
 
+/* =========================================================
+   HEADER / NAVBAR
+   Fixed to the top of the viewport; .header.active (added by
+   script.js/layout.js on scroll) gives it a background once the
+   page has scrolled away from the very top.
+   ========================================================= */
 .header{
     display: flex;
     align-items: center;
@@ -125,6 +160,12 @@ section{
     display: none;
 }
 
+/* =========================================================
+   LOGIN / SIGNUP MODAL
+   Centred overlay, hidden by default and shown via the
+   .active class (toggled from script.js / js/layout.js for a
+   manual open, or js/auth.js for the login-gating flows).
+   ========================================================= */
 .login-form-container{
     position: fixed;
     top:-105%; left:0;
@@ -201,6 +242,13 @@ section{
     cursor: pointer;
 }
 
+/* =========================================================
+   HOME / HERO SECTION
+   Full-height intro. .home-parallax elements (the hero image
+   layers + "explore cars" button) get their subtle mouse-follow
+   effect from script.js, not from CSS — this just sets up their
+   base positioning/sizing.
+   ========================================================= */
 .home{
     padding-top: 10rem;
     text-align: center;
@@ -218,6 +266,9 @@ section{
     margin:1rem 0;
 }
 
+/* =========================================================
+   QUICK STATS ROW
+   ========================================================= */
 .icons-container{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
@@ -274,6 +325,13 @@ section{
     color:#eee;
 }
 
+/* =========================================================
+   POPULAR VEHICLES SLIDER
+   Swiper carousel styling for the homepage's first vehicle
+   section (6 cars). Swiper's own bundled CSS handles the
+   slide mechanics/transitions — this is just the visual
+   styling of each card's contents.
+   ========================================================= */
 .vehicles .vehicles-slider{
     padding-bottom: 5rem;
 }
@@ -333,9 +391,15 @@ section{
     color:var(--yellow);
     padding:0 .5rem;
 }
+/* Pagination dot colour — shared by all three homepage sliders
+   (vehicles / featured / reviews), overriding Swiper's default. */
 .swiper-pagination-bullet{
     background: white;
 }
+/* =========================================================
+   SERVICES SECTION
+   Grid of informational boxes (sales, repair, insurance, etc.).
+   ========================================================= */
 .services .box-container{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
@@ -385,6 +449,13 @@ section{
     color:#eee;
 }
 
+/* =========================================================
+   FEATURED CARS SLIDER
+   Same pattern as the Popular Vehicles slider above, for the
+   8 "featured" cars — this class also picks up the shared
+   .wishlist-btn / .slider-nav-btn styling added further down
+   this file (see the "Added for..." banner).
+   ========================================================= */
 .featured .featured-slider{
     padding:1rem;
     padding-bottom: 4rem;
@@ -427,6 +498,11 @@ section{
 
 
 
+/* =========================================================
+   NEWSLETTER
+   "Subscribe" — deliberately outside the login-gating system
+   (see js/contact.js). Purely presentational here.
+   ========================================================= */
 .newsletter{
     padding:6rem 2rem;
     background: url(../image/letter-bg.png) no-repeat;
@@ -479,6 +555,9 @@ section{
     background: var(--yellow);
 }
 
+/* =========================================================
+   REVIEWS / TESTIMONIALS SLIDER
+   ========================================================= */
 .reviews .review-slider{
     padding-bottom: 3rem;
 }
@@ -523,6 +602,11 @@ section{
     font-size: 1.7rem;
 }
 
+/* =========================================================
+   CONTACT SECTION
+   Map + "Send Message" form — also deliberately outside the
+   login-gating system (see js/contact.js: posts to Formspree).
+   ========================================================= */
 .contact .row{
     display: flex;
     flex-wrap: wrap;
@@ -568,6 +652,9 @@ section{
     resize: none;
 }
 
+/* =========================================================
+   FOOTER
+   ========================================================= */
 .footer{
     background: var(--light-yellow);
     padding-bottom: 8rem;
@@ -610,6 +697,14 @@ section{
     font-size: 2rem;
     color:var(--black);
 }
+/* =========================================================
+   RESPONSIVE — original breakpoints
+   991px ≈ small laptops/tablets landscape, 768px ≈ tablets
+   portrait / large phones (this is also where the hamburger
+   menu takes over from the inline nav links), 450px ≈ small
+   phones. Everything added later in this file (past the
+   "Added for..." banner) follows this same breakpoint scheme.
+   ========================================================= */
 @media (max-width:991px){
 
     html{
@@ -679,4 +774,969 @@ section{
         font-size: 3rem;
     }
 
+}
+/* =========================================================================
+   AutoGod — Added for login/profile, product pages, cart, checkout & dashboard
+   Everything below is NEW. Nothing above this line has been changed.
+   Built on the same variables, fonts and component patterns as the rest
+   of the site (--yellow / --light-yellow / --black / --box-shadow / .btn
+   / .box / .heading), so new pages stay visually consistent.
+   ========================================================================= */
+
+/* ---------- Header: cart icon + profile chip ---------- */
+.header .header-actions{
+  display:flex;
+  align-items:center;
+  gap:1.8rem;
+}
+
+#cart-btn{
+  position:relative;
+  font-size:2.2rem;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+}
+
+#cart-btn:hover{
+  color:var(--yellow);
+}
+
+#cart-btn .badge{
+  position:absolute;
+  top:-.9rem; right:-1.1rem;
+  background:var(--yellow);
+  color:var(--black);
+  font-size:1.1rem;
+  font-weight:700;
+  min-width:1.9rem;
+  height:1.9rem;
+  border-radius:50%;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:0 .3rem;
+}
+
+.profile-chip{
+  display:none;
+  align-items:center;
+  gap:.9rem;
+}
+
+.profile-chip .profile-link{
+  display:flex;
+  align-items:center;
+  gap:.9rem;
+  color:white;
+}
+
+.profile-chip .profile-link:hover{
+  color:var(--yellow);
+}
+
+.avatar-circle{
+  height:3.8rem; width:3.8rem;
+  border-radius:50%;
+  overflow:hidden;
+  background:var(--yellow);
+  color:var(--black);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem; font-weight:700;
+  flex-shrink:0;
+}
+
+.avatar-circle img{
+  height:100%; width:100%; object-fit:cover;
+}
+
+.profile-chip #profile-name{
+  font-size:1.6rem;
+  max-width:12rem;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:white;
+}
+
+.logout-icon-btn{
+  background:none;
+  color:#ccc;
+  font-size:1.9rem;
+  cursor:pointer;
+  padding:.4rem;
+}
+
+.logout-icon-btn:hover{
+  color:var(--yellow);
+}
+
+#google-btn-host{
+  position:absolute;
+  top:-9999px; left:-9999px;
+  width:1px; height:1px;
+  overflow:hidden;
+}
+
+/* ---------- Login form: signup name field + mode toggle ---------- */
+.login-form-container form .box#fullname-field{
+  display:none;
+}
+
+/* ---------- Toast notifications ---------- */
+.toast-container{
+  position:fixed;
+  top:9rem; right:2rem;
+  z-index:100000;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  max-width:90vw;
+}
+
+.toast{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  background:#fff;
+  color:var(--black);
+  padding:1.2rem 1.6rem;
+  border-radius:.5rem;
+  box-shadow:var(--box-shadow);
+  border-left:.4rem solid var(--yellow);
+  font-size:1.4rem;
+  max-width:34rem;
+  opacity:0;
+  transform:translateX(2rem);
+  text-transform:none;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(0);
+}
+
+.toast i{ font-size:1.8rem; color:var(--yellow); flex-shrink:0; }
+.toast-error{ border-left-color:#e74c3c; }
+.toast-error i{ color:#e74c3c; }
+.toast-info{ border-left-color:#3498db; }
+.toast-info i{ color:#3498db; }
+
+/* ---------- Wishlist "save" heart on car cards ---------- */
+.vehicles-slider .swiper-slide.box,
+.featured-slider .swiper-slide.box,
+.car-card{
+  position:relative;
+}
+
+.wishlist-btn{
+  position:absolute;
+  top:1rem; right:1rem;
+  z-index:5;
+  background:rgba(255,255,255,.92);
+  height:3.6rem; width:3.6rem;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  box-shadow:var(--box-shadow);
+}
+
+.wishlist-btn i{ font-size:1.6rem; color:var(--black); }
+.wishlist-btn.active i{ color:#e74c3c; }
+.wishlist-btn:hover{ background:var(--light-yellow); }
+
+.wishlist-btn.wishlist-btn-inline{
+  position:static;
+  width:auto; height:auto;
+  padding:.9rem 1.8rem;
+  border-radius:.5rem;
+  gap:.7rem;
+  box-shadow:none;
+}
+.wishlist-btn.wishlist-btn-inline i{ font-size:1.6rem; }
+.wishlist-btn.wishlist-btn-inline.active{ border-color:#e74c3c; }
+
+/* ---------- Shared: interior page content wrapper ---------- */
+.page-content{
+  padding-top:11rem;
+  min-height:60vh;
+}
+
+.back-link{
+  display:inline-flex;
+  align-items:center;
+  gap:.6rem;
+  color:#aaa;
+  font-size:1.5rem;
+  margin-bottom:2rem;
+}
+
+.back-link:hover{ color:var(--yellow); }
+
+/* ---------- Reusable car card (product-page "related" grids, dashboard "saved") ---------- */
+.car-card{
+  background:#fff;
+  padding:2rem;
+  text-align:center;
+  box-shadow:var(--box-shadow);
+  border:var(--border);
+  border-radius:.5rem;
+  display:block;
+  color:inherit;
+}
+
+.car-card img{ height:15rem; width:100%; object-fit:contain; }
+.car-card:hover img{ transform:scale(.95); }
+.car-card h3{ font-size:2rem; color:var(--black); padding:1rem 0 .3rem; }
+.car-card .stars i{ font-size:1.4rem; color:var(--yellow); }
+.car-card .price{ font-size:2.1rem; color:var(--black); padding:.7rem 0; font-weight:700; }
+.car-card .btn{ width:100%; }
+
+/* ---------- Product page ---------- */
+.product-page .product-top{
+  display:flex;
+  flex-wrap:wrap;
+  gap:3rem;
+  background:#fff;
+  border-radius:.5rem;
+  box-shadow:var(--box-shadow);
+  padding:3rem;
+}
+
+.product-page .product-gallery{ flex:1 1 40rem; }
+.product-page .product-gallery img{
+  width:100%;
+  border-radius:.5rem;
+  background:#f4f4f4;
+}
+
+.product-page .product-info{ flex:1 1 40rem; }
+
+.product-page .category-tag{
+  display:inline-block;
+  background:var(--light-yellow);
+  color:var(--black);
+  font-size:1.2rem;
+  padding:.4rem 1.2rem;
+  border-radius:2rem;
+  margin-bottom:1rem;
+  font-weight:600;
+}
+
+.product-page .condition-tag{
+  display:inline-block;
+  background:#eee;
+  color:var(--black);
+  font-size:1.2rem;
+  padding:.4rem 1.2rem;
+  border-radius:2rem;
+  margin-bottom:1rem;
+  margin-left:.6rem;
+  font-weight:600;
+}
+
+.product-page .product-info h1{
+  font-size:3rem;
+  color:var(--black);
+  padding-bottom:.5rem;
+  text-transform:none;
+}
+
+.product-page .product-info .stars i{ color:var(--yellow); font-size:1.6rem; }
+.product-page .product-info .stars span{
+  font-size:1.4rem;
+  color:var(--light-color);
+  margin-left:.5rem;
+}
+
+.product-page .product-info .price{
+  font-size:3.2rem;
+  color:var(--black);
+  font-weight:700;
+  padding:1.5rem 0;
+}
+
+.product-page .product-info .price span{
+  font-size:1.4rem;
+  color:var(--light-color);
+  font-weight:400;
+}
+
+.product-page .product-info .description{
+  font-size:1.5rem;
+  line-height:1.8;
+  color:var(--light-color);
+  padding-bottom:1.5rem;
+  border-bottom:var(--border);
+  margin-bottom:1.5rem;
+  text-transform:none;
+}
+
+.product-page .qty-row{
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  margin-bottom:1.5rem;
+}
+
+.product-page .qty-row > span{ font-size:1.5rem; color:var(--black); }
+
+.product-page .qty-stepper{
+  display:flex;
+  align-items:center;
+  border:var(--border);
+  border-radius:.5rem;
+  overflow:hidden;
+}
+
+.product-page .qty-stepper button{
+  background:#eee;
+  border:none;
+  width:3.8rem; height:3.8rem;
+  font-size:1.8rem;
+  cursor:pointer;
+}
+
+.product-page .qty-stepper span{
+  width:4.4rem;
+  text-align:center;
+  font-size:1.6rem;
+}
+
+.product-page .action-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+
+.product-page .action-row .btn{
+  margin-top:0;
+  flex:1 1 16rem;
+  text-align:center;
+}
+
+.btn-outline{
+  background:#fff;
+  border:.15rem solid var(--black);
+  color:var(--black);
+}
+
+.btn-outline:hover{ background:var(--black); color:#fff; }
+
+.product-page .specs-section,
+.product-page .related-section{
+  background:transparent;
+  margin-top:2.5rem;
+}
+
+.product-page .specs-section h2,
+.product-page .related-section h2{
+  font-size:2.4rem;
+  color:white;
+  padding-bottom:1rem;
+}
+
+.product-page .specs-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(20rem, 1fr));
+  gap:1.5rem;
+}
+
+.product-page .spec-item{
+  background:#fff;
+  border:var(--border);
+  border-radius:.5rem;
+  padding:1.5rem;
+}
+
+.product-page .spec-item .label{
+  font-size:1.2rem;
+  color:var(--light-color);
+  letter-spacing:.05rem;
+}
+
+.product-page .spec-item .value{
+  font-size:1.7rem;
+  color:var(--black);
+  font-weight:600;
+  padding-top:.3rem;
+}
+
+.product-page .related-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(24rem, 1fr));
+  gap:1.5rem;
+}
+
+.product-page .not-found{
+  text-align:center;
+  background:#fff;
+  border-radius:.5rem;
+  padding:5rem 2rem;
+  box-shadow:var(--box-shadow);
+}
+
+.product-page .not-found i{ font-size:5rem; color:var(--light-yellow); margin-bottom:1.5rem; }
+.product-page .not-found h2{ font-size:2.4rem; color:var(--black); margin-bottom:1rem; }
+
+/* ---------- Cart page ---------- */
+.cart-page .cart-layout{
+  display:flex;
+  flex-wrap:wrap;
+  gap:2rem;
+  align-items:flex-start;
+}
+
+.cart-page .cart-items{
+  flex:2 1 50rem;
+  background:#fff;
+  border-radius:.5rem;
+  box-shadow:var(--box-shadow);
+  padding:2rem;
+}
+
+.cart-page .cart-item{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:1.5rem;
+  padding:1.5rem 0;
+  border-bottom:var(--border);
+}
+
+.cart-page .cart-item:last-child{ border-bottom:none; }
+
+.cart-page .cart-item img{
+  width:10rem; height:7rem; object-fit:contain; background:#f4f4f4; border-radius:.5rem;
+}
+
+.cart-page .cart-item .item-info{ flex:1 1 16rem; }
+.cart-page .cart-item .item-info h3{ font-size:1.8rem; color:var(--black); }
+.cart-page .cart-item .item-info .unit-price{ font-size:1.4rem; color:var(--light-color); }
+
+.cart-page .cart-item .item-actions{
+  display:flex; align-items:center; gap:1.5rem;
+}
+
+.cart-page .cart-item .remove-btn{
+  color:#e74c3c; cursor:pointer; font-size:1.6rem; background:none;
+}
+
+.cart-page .cart-item .line-total{
+  font-size:1.7rem; font-weight:700; color:var(--black); min-width:9rem; text-align:right;
+}
+
+.cart-page .cart-summary{
+  flex:1 1 28rem;
+  background:#fff;
+  border-radius:.5rem;
+  box-shadow:var(--box-shadow);
+  padding:2rem;
+  position:sticky;
+  top:12rem;
+}
+
+.cart-page .cart-summary h3{
+  font-size:2.2rem; color:var(--black); padding-bottom:1.5rem; border-bottom:var(--border); margin-bottom:1.5rem;
+}
+
+.cart-page .summary-row{
+  display:flex; justify-content:space-between; font-size:1.5rem; color:var(--light-color); padding:.6rem 0;
+}
+
+.cart-page .summary-row.total{
+  font-size:1.9rem; color:var(--black); font-weight:700; border-top:var(--border); margin-top:1rem; padding-top:1.5rem;
+}
+
+.cart-page .cart-summary .btn{ width:100%; text-align:center; margin-top:1.5rem; }
+
+.cart-page .empty-cart{
+  text-align:center; background:#fff; border-radius:.5rem; padding:5rem 2rem; box-shadow:var(--box-shadow);
+}
+
+.cart-page .empty-cart i{ font-size:5rem; color:var(--light-yellow); margin-bottom:1.5rem; }
+.cart-page .empty-cart h3{ font-size:2.4rem; color:var(--black); margin-bottom:1rem; }
+
+/* ---------- Checkout page ---------- */
+.checkout-page .checkout-layout{
+  display:flex; flex-wrap:wrap; gap:2rem; align-items:flex-start;
+}
+
+.checkout-page .checkout-form{
+  flex:2 1 50rem;
+  background:#fff; border-radius:.5rem; box-shadow:var(--box-shadow); padding:3rem;
+}
+
+.checkout-page .checkout-form h3{
+  font-size:2rem; color:var(--black); padding-bottom:1rem; margin-bottom:1.5rem; border-bottom:var(--border);
+}
+
+.checkout-page .form-grid{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(20rem,1fr)); gap:1.2rem; margin-bottom:2.5rem;
+}
+
+.checkout-page .form-grid .box{ margin:0; }
+.checkout-page .full-width{ grid-column:1/-1; }
+
+.checkout-page .demo-banner{
+  display:flex; align-items:center; gap:1rem;
+  background:#fff8e1; border:.1rem solid var(--light-yellow); color:var(--black);
+  padding:1.2rem 1.5rem; border-radius:.5rem; font-size:1.4rem; margin-bottom:2rem;
+  text-transform:none;
+}
+
+.checkout-page .demo-banner i{ font-size:2rem; color:#c9971f; flex-shrink:0; }
+
+.checkout-page .card-icons{
+  display:flex; gap:1rem; margin:.5rem 0 1.5rem; font-size:2.4rem; color:var(--light-color);
+}
+
+.checkout-page .order-summary{
+  flex:1 1 28rem;
+  background:#fff; border-radius:.5rem; box-shadow:var(--box-shadow); padding:2rem;
+  position:sticky; top:12rem;
+}
+
+.checkout-page .order-summary h3{
+  font-size:2rem; color:var(--black); padding-bottom:1rem; margin-bottom:1rem; border-bottom:var(--border);
+}
+
+.checkout-page .order-summary .mini-item{
+  display:flex; justify-content:space-between; gap:1rem; font-size:1.4rem; color:var(--light-color); padding:.7rem 0; border-bottom:var(--border);
+}
+
+.checkout-page .order-summary .mini-item .name{ color:var(--black); }
+
+.checkout-page .processing-overlay{
+  position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.9); z-index:100000;
+  display:none; align-items:center; justify-content:center; flex-direction:column; gap:1.5rem;
+}
+
+.checkout-page .processing-overlay.active{ display:flex; }
+.checkout-page .processing-overlay img{ width:8rem; }
+.checkout-page .processing-overlay p{ color:#fff; font-size:1.8rem; }
+
+.checkout-page .order-success{
+  text-align:center; background:#fff; border-radius:.5rem; box-shadow:var(--box-shadow); padding:4rem 2rem;
+}
+
+.checkout-page .order-success i{ font-size:6rem; color:#27ae60; margin-bottom:1.5rem; }
+.checkout-page .order-success h2{ font-size:2.8rem; color:var(--black); margin-bottom:1rem; }
+.checkout-page .order-success p{ color:var(--light-color); font-size:1.5rem; }
+
+.checkout-page .order-success .order-id{
+  display:inline-block; background:#eee; padding:.6rem 1.5rem; border-radius:.5rem; font-family:monospace; font-size:1.6rem; margin:1rem 0;
+}
+
+/* ---------- Profile / dashboard page ---------- */
+.dashboard-page .profile-header{
+  display:flex; flex-wrap:wrap; align-items:center; gap:2rem;
+  background:#fff; border-radius:.5rem; box-shadow:var(--box-shadow); padding:2.5rem;
+  margin-bottom:2rem;
+}
+
+.dashboard-page .profile-header .avatar-circle{
+  height:8rem; width:8rem; font-size:2.8rem;
+}
+
+.dashboard-page .profile-header .profile-details{ flex:1; min-width:18rem; }
+.dashboard-page .profile-header .profile-details h1{ font-size:2.6rem; color:var(--black); text-transform:none; }
+.dashboard-page .profile-header .profile-details p{ font-size:1.4rem; color:var(--light-color); padding-top:.3rem; }
+
+.dashboard-page .provider-badge{
+  display:inline-block; margin-top:.8rem; font-size:1.1rem; text-transform:uppercase;
+  background:var(--light-yellow); color:var(--black); padding:.3rem 1rem; border-radius:2rem; font-weight:600;
+}
+
+/* Groups "Edit Profile" + "Logout" together on the right of the profile header,
+   independent of .profile-header's own flex gap (see profile.html) */
+.dashboard-page .profile-header-actions{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+
+/* Profile-photo uploader inside the Account Settings tab */
+.dashboard-page .avatar-upload-row{
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  margin-bottom:1.5rem;
+}
+
+.dashboard-page .avatar-upload-row .avatar-circle{
+  height:6rem;
+  width:6rem;
+  font-size:2rem;
+  flex-shrink:0;
+}
+
+.dashboard-page .avatar-hint{
+  font-size:1.2rem;
+  color:var(--light-color);
+  margin-top:.6rem;
+  max-width:26rem;
+}
+
+.dashboard-page .stats-row{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(20rem,1fr)); gap:1.5rem; margin-bottom:2.5rem;
+}
+
+.dashboard-page .stat-card{
+  background:#fff; border-radius:.5rem; box-shadow:var(--box-shadow); padding:2rem;
+  display:flex; align-items:center; gap:1.5rem;
+}
+
+.dashboard-page .stat-card i{
+  height:5rem; width:5rem; line-height:5rem; text-align:center; border-radius:50%;
+  background:var(--light-yellow); color:var(--black); font-size:2rem;
+}
+
+.dashboard-page .stat-card h3{ font-size:2.4rem; color:var(--black); }
+.dashboard-page .stat-card p{ font-size:1.3rem; color:var(--light-color); }
+
+.dashboard-page .dash-tabs{
+  display:flex; flex-wrap:wrap; gap:1rem; margin-bottom:2rem;
+}
+
+.dashboard-page .dash-tab{
+  background:#fff; border:var(--border); color:var(--black);
+  padding:.9rem 2rem; border-radius:3rem; font-size:1.4rem; cursor:pointer; font-weight:500;
+}
+
+.dashboard-page .dash-tab.active{ background:var(--yellow); border-color:var(--yellow); }
+
+.dashboard-page .dash-panel{
+  background:#fff; border-radius:.5rem; box-shadow:var(--box-shadow); padding:2.5rem;
+  display:none;
+}
+
+.dashboard-page .dash-panel.active{ display:block; }
+
+.dashboard-page .dash-panel h2{
+  font-size:2.2rem; color:var(--black); padding-bottom:1.5rem; border-bottom:var(--border); margin-bottom:1.5rem;
+  text-transform:none;
+}
+
+.dashboard-page .order-card{
+  display:flex; flex-wrap:wrap; align-items:center; gap:1.5rem;
+  border:var(--border); border-radius:.5rem; padding:1.5rem; margin-bottom:1.2rem;
+}
+
+.dashboard-page .order-card img{ width:8rem; height:6rem; object-fit:contain; background:#f4f4f4; border-radius:.5rem; }
+.dashboard-page .order-card .order-info{ flex:1; min-width:16rem; }
+.dashboard-page .order-card .order-info h4{ font-size:1.6rem; color:var(--black); }
+.dashboard-page .order-card .order-info p{ font-size:1.3rem; color:var(--light-color); }
+
+.status-pill{
+  font-size:1.1rem; text-transform:uppercase; font-weight:700; padding:.4rem 1.2rem; border-radius:2rem;
+}
+
+.status-pill.confirmed{ background:#e6f7ec; color:#27ae60; }
+.status-pill.processing{ background:#fff8e1; color:#c9971f; }
+
+.dashboard-page .saved-grid{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(22rem,1fr)); gap:1.5rem;
+}
+
+.dashboard-page .booking-form{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(18rem,1fr)); gap:1.2rem; margin-bottom:2.5rem;
+}
+
+.dashboard-page .booking-form select,
+.dashboard-page .booking-form input{
+  width:100%; border:var(--border); border-radius:.5rem; padding:1rem 1.2rem; font-size:1.5rem; color:var(--black); text-transform:none;
+  background:#fff;
+}
+
+.dashboard-page .booking-item{
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;
+  border:var(--border); border-radius:.5rem; padding:1.2rem 1.5rem; margin-bottom:1rem;
+}
+
+.dashboard-page .booking-item h4{ font-size:1.5rem; color:var(--black); }
+.dashboard-page .booking-item p{ font-size:1.3rem; color:var(--light-color); }
+
+.dashboard-page .booking-item .cancel-btn{
+  color:#e74c3c; background:none; font-size:1.3rem; cursor:pointer; text-decoration:underline;
+}
+
+.dashboard-page .account-form{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(20rem,1fr)); gap:1.2rem;
+}
+
+.dashboard-page .account-form .box{ margin:0; }
+.dashboard-page .account-form .full-width{ grid-column:1/-1; }
+
+.dashboard-page .empty-state{
+  text-align:center; padding:3rem 1rem; color:var(--light-color);
+}
+
+.dashboard-page .empty-state i{ font-size:4rem; color:var(--light-yellow); margin-bottom:1rem; display:block; }
+
+/* ---------- Responsive tweaks for the new components ---------- */
+@media (max-width:991px){
+  .page-content{ padding-top:9rem; }
+  .cart-page .cart-summary,
+  .checkout-page .order-summary{ position:static; }
+}
+
+@media (max-width:768px){
+  .header .header-actions{ gap:1.2rem; }
+  .profile-chip #profile-name{ display:none; }
+  #cart-btn{ font-size:2rem; }
+  .cart-page .cart-item{ flex-direction:column; align-items:flex-start; }
+  .cart-page .cart-item .line-total{ text-align:left; }
+  .product-page .product-top{ padding:2rem; }
+}
+
+@media (max-width:450px){
+  .toast-container{ left:1rem; right:1rem; top:8rem; }
+  .toast{ max-width:100%; }
+}
+
+/* =========================================================================
+   AutoGod — Added for search, filters, category links, slider arrows
+   Everything below is NEW. Nothing above this line has been changed.
+   ========================================================================= */
+
+/* ---------- Navbar search bar ---------- */
+.nav-search{
+  display:inline-flex;
+  align-items:center;
+  vertical-align:middle;
+  margin-left:1.5rem;
+  border:.1rem solid rgba(255,255,255,.3);
+  border-radius:3rem;
+  overflow:hidden;
+  background:rgba(255,255,255,.06);
+}
+
+.nav-search input{
+  background:transparent;
+  border:none;
+  outline:none;
+  color:#fff;
+  font-size:1.4rem;
+  padding:.8rem 0 .8rem 1.4rem;
+  width:14rem;
+  text-transform:none;
+}
+
+.nav-search input::placeholder{ color:#999; }
+
+.nav-search button{
+  background:none;
+  border:none;
+  color:var(--yellow);
+  font-size:1.5rem;
+  padding:.8rem 1.4rem;
+  cursor:pointer;
+}
+
+.nav-search button:hover{ color:#fff; }
+
+/* ---------- Category quick-links (homepage "shop by category") ---------- */
+.category-chips{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:1rem;
+  margin:-1rem 0 3rem;
+}
+
+.category-chip{
+  background:#fff;
+  color:var(--black);
+  border:.15rem solid #fff;
+  padding:.8rem 1.8rem;
+  border-radius:3rem;
+  font-size:1.4rem;
+  font-weight:500;
+}
+
+.category-chip:hover{
+  background:var(--yellow);
+  border-color:var(--yellow);
+}
+
+/* ---------- "See more" buttons under the homepage sliders ---------- */
+.see-more-row{
+  text-align:center;
+  margin-top:2.5rem;
+}
+
+/* ---------- Functional slider prev/next arrows ---------- */
+.slider-nav-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:10;
+  height:4.5rem;
+  width:4.5rem;
+  border-radius:50%;
+  background:rgba(0,0,0,.55);
+  border:.15rem solid var(--yellow);
+  color:var(--yellow);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.8rem;
+  cursor:pointer;
+}
+
+.slider-nav-btn:hover{
+  background:var(--yellow);
+  color:var(--black);
+}
+
+.slider-nav-btn.prev{ left:.5rem; }
+.slider-nav-btn.next{ right:.5rem; }
+
+.slider-nav-btn.swiper-button-disabled{
+  opacity:.35;
+  cursor:default;
+}
+
+/* ---------- Vehicle listing / filter page ---------- */
+.vehicles-listing-page .listing-layout{
+  display:flex;
+  gap:2rem;
+  align-items:flex-start;
+}
+
+.vehicles-listing-page .filter-panel{
+  flex:0 0 26rem;
+  background:#fff;
+  border-radius:.5rem;
+  box-shadow:var(--box-shadow);
+  padding:2rem;
+  position:sticky;
+  top:12rem;
+}
+
+.vehicles-listing-page .filter-panel h3{
+  font-size:1.8rem;
+  color:var(--black);
+  padding-bottom:1rem;
+  margin-bottom:1.5rem;
+  border-bottom:var(--border);
+  text-transform:none;
+}
+
+.vehicles-listing-page .filter-group{ margin-bottom:1.4rem; }
+
+.vehicles-listing-page .filter-group label{
+  display:block;
+  font-size:1.2rem;
+  color:var(--light-color);
+  text-transform:uppercase;
+  letter-spacing:.05rem;
+  margin-bottom:.5rem;
+}
+
+.vehicles-listing-page .filter-group input,
+.vehicles-listing-page .filter-group select{
+  width:100%;
+  border:var(--border);
+  border-radius:.5rem;
+  padding:1rem 1.2rem;
+  font-size:1.4rem;
+  color:var(--black);
+  background:#fff;
+  text-transform:none;
+}
+
+.vehicles-listing-page #clear-filters-btn{
+  width:100%;
+  margin-top:.5rem;
+}
+
+.vehicles-listing-page .listing-results{ flex:1; min-width:0; }
+
+.vehicles-listing-page .group-tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+
+.vehicles-listing-page .group-tab{
+  background:#fff;
+  border:var(--border);
+  color:var(--black);
+  padding:.9rem 2rem;
+  border-radius:3rem;
+  font-size:1.4rem;
+  cursor:pointer;
+  font-weight:500;
+}
+
+.vehicles-listing-page .group-tab.active{
+  background:var(--yellow);
+  border-color:var(--yellow);
+}
+
+.vehicles-listing-page .results-bar{
+  color:#ccc;
+  font-size:1.4rem;
+  margin-bottom:1.5rem;
+}
+
+.vehicles-listing-page .listing-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(24rem, 1fr));
+  gap:1.8rem;
+}
+
+.vehicles-listing-page .listing-grid .empty-state{
+  grid-column:1/-1;
+  text-align:center;
+  color:#ccc;
+  padding:4rem 1rem;
+}
+
+.vehicles-listing-page .listing-grid .empty-state i{
+  font-size:4rem;
+  color:var(--light-yellow);
+  margin-bottom:1rem;
+  display:block;
+}
+
+.availability-tag{
+  position:absolute;
+  top:1rem;
+  left:1rem;
+  z-index:5;
+  font-size:1.1rem;
+  text-transform:uppercase;
+  font-weight:700;
+  padding:.4rem 1rem;
+  border-radius:2rem;
+}
+
+.availability-tag.availability-in{ background:#e6f7ec; color:#27ae60; }
+.availability-tag.availability-limited{ background:#fff8e1; color:#c9971f; }
+
+/* ---------- Responsive ---------- */
+@media (max-width:991px){
+  .vehicles-listing-page .listing-layout{ flex-direction:column; }
+  .vehicles-listing-page .filter-panel{ flex:1 1 auto; width:100%; position:static; }
+}
+
+@media (max-width:768px){
+  .nav-search{
+    display:flex;
+    width:calc(100% - 4rem);
+    margin:1.5rem auto;
+  }
+  .nav-search input{ flex:1; width:auto; }
+
+  .slider-nav-btn{ height:3.6rem; width:3.6rem; font-size:1.4rem; }
+}
+
+@media (max-width:450px){
+  .category-chips{ gap:.7rem; }
+  .category-chip{ padding:.6rem 1.4rem; font-size:1.3rem; }
 }
