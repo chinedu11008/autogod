@@ -1,5 +1,9 @@
 # AutoGod — Setup Guide
 
+> Looking for a project overview, feature list, or file structure map
+> instead? See **[README.md](README.md)**. This file is just the
+> credential setup + deployment instructions.
+
 This site is fully working out of the box: browsing, product pages, cart,
 checkout, orders, wishlist, test-drive bookings, editing your profile
 (including a photo upload), and a local email/password login all work

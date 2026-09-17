@@ -108,6 +108,11 @@
 
     <div class="listing-layout">
 
+        <!-- Filter sidebar: every <select> here is populated dynamically by
+             js/vehicles.js (populateFilterOptions()) from whatever values
+             actually exist in js/cars-data.js, so it can never drift out of
+             sync with the catalog. Price/mileage use hand-picked ranges
+             instead (see PRICE_BANDS / MILEAGE_BANDS in vehicles.js). -->
         <aside class="filter-panel">
             <h3>filter results</h3>
 
