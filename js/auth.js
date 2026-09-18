@@ -55,6 +55,7 @@ function setIntendedDestination(url) {
 function goToIntendedDestination(fallback) {
   const dest = sessionStorage.getItem(DEST_KEY);
   sessionStorage.removeItem(DEST_KEY);
+  if (typeof showPageLoader === "function") showPageLoader();
   window.location.href = dest || fallback || "profile.html";
 }
 
@@ -115,7 +116,10 @@ function updateSession(patch) {
 function logout() {
   localStorage.removeItem(SESSION_KEY);
   showToast("You've been logged out.", "info");
-  setTimeout(() => { window.location.href = "index.html"; }, 400);
+  setTimeout(() => {
+    if (typeof showPageLoader === "function") showPageLoader();
+    window.location.href = "index.html";
+  }, 400);
 }
 
 
@@ -139,6 +143,7 @@ function requireLogin() {
     // the visitor right back to it, e.g. product.html?id=vehicle-3
     setIntendedDestination(window.location.pathname.split("/").pop() + window.location.search);
     sessionStorage.setItem("autogod_redirect_reason", "login-required");
+    if (typeof showPageLoader === "function") showPageLoader();
     window.location.href = "index.html";
     return false;
   }
@@ -276,6 +281,20 @@ function closeLoginForm() {
   if (modal) modal.classList.remove("active");
 }
 
+// "Peek" toggle for the password field — swaps the input between
+// type="password" (dots) and type="text" (plain), and flips the
+// eye/eye-slash icon + aria-label to match.
+function togglePasswordVisibility() {
+  const input = document.getElementById("password-input");
+  const btn = document.getElementById("toggle-password-btn");
+  if (!input || !btn) return;
+  const icon = btn.querySelector("i");
+  const showing = input.type === "text";
+  input.type = showing ? "password" : "text";
+  if (icon) icon.className = showing ? "fas fa-eye" : "fas fa-eye-slash";
+  btn.setAttribute("aria-label", showing ? "show password" : "hide password");
+}
+
 
 /* =========================================================
    CATEGORY 6: GOOGLE SIGN-IN
@@ -410,6 +429,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const forgotLink = document.getElementById("forgot-password-link");
   if (forgotLink) forgotLink.addEventListener("click", handleForgotPassword);
+
+  const togglePasswordBtn = document.getElementById("toggle-password-btn");
+  if (togglePasswordBtn) togglePasswordBtn.addEventListener("click", togglePasswordVisibility);
 
   const googleBtn = document.getElementById("google-login-btn");
   if (googleBtn) googleBtn.addEventListener("click", (e) => { e.preventDefault(); triggerGoogleLogin(); });

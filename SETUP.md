@@ -84,17 +84,24 @@ needed on your end. If you ever want messages to go to a different
 inbox, create your own form at [formspree.io](https://www.formspree.io/)
 and swap in the new URL.
 
-## 4. Order-confirmation emails (optional, EmailJS)
+## 4. Order emails — receipt + new-order alert (optional, EmailJS)
 
-Separate from the contact form above — if configured, checkout.js emails
-the customer a receipt right after they place an order.
+Separate from the contact form above. **This is worth setting up before
+going live**, not just a nice-to-have: right now, if a customer "buys" a
+car, the only record of it is saved in *their own browser* — you, the
+dealership, have no way of finding out an order came in unless this is
+configured. Once it is, placing an order sends two emails from the same
+template: a receipt to the customer, and a new-order alert to you
+(`OWNER_EMAIL` below).
 
 1. Create a free account at [emailjs.com](https://www.emailjs.com/).
 2. **Email Services** → **Add New Service** → connect your Gmail (or
    Outlook, etc.). Copy the **Service ID**.
 3. **Email Templates** → **Create New Template** using:
    `{{order_id}}`, `{{customer_name}}`, `{{customer_email}}`,
-   `{{items}}`, `{{total}}`. Copy its **Template ID**.
+   `{{items}}`, `{{total}}`, and set the template's "To Email" field to
+   `{{to_email}}` (the code sends this dynamically — once for the
+   customer's address, once for yours). Copy the **Template ID**.
 4. **Account → General** → copy your **Public Key**.
 5. Paste everything into `js/config.js`:
    ```js
@@ -105,7 +112,7 @@ the customer a receipt right after they place an order.
    ```
 
 Until this is set up, checkout still works exactly the same — orders are
-just saved to the dashboard without an emailed receipt.
+just saved to the dashboard with no email to either side.
 
 ---
 

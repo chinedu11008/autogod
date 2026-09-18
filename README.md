@@ -22,6 +22,8 @@ working contact form — all client-side, no backend server required.
 | **Shopping** | Product detail pages with full specs, add-to-cart / buy-now, a cart page, and a checkout flow (simulated payment — see [Known limitations](#known-limitations)). |
 | **Customer dashboard** | Order history, a wishlist ("saved cars"), test-drive booking, and account settings — including editing your name/phone and, for local accounts, uploading a profile photo. |
 | **Contact form** | Sends real email today via [Formspree](https://formspree.io) — no setup needed. |
+| **Page-transition loader** | A full-screen loading animation shows between page loads and on internal navigation — completes a feature the original template referenced but never actually built (dead `loader()`/`fadeOut()` functions in `script.js`; see `js/page-loader.js`). |
+| **SEO basics** | Meta description, Open Graph, and Twitter Card tags on the homepage (`index.html`); gated pages are marked `noindex` since search engines can't get past the login wall anyway; `product.html`'s tags update dynamically per vehicle so sharing a specific car's link shows a real preview card. |
 
 ---
 
@@ -69,6 +71,7 @@ autogod/
 │   ├── layout.js                 Menu/login-modal/scroll behavior for every
 │   │                             page except index.html (which uses script.js)
 │   ├── nav-search.js               Navbar search bar behavior
+│   ├── page-loader.js                Page-transition loading screen
 │   ├── product.js                    product.html's rendering logic
 │   ├── cart-page.js                    cart.html's rendering logic
 │   ├── checkout.js                       checkout.html's rendering + order flow
@@ -115,9 +118,9 @@ there after login" system (`setIntendedDestination()` /
 signing in sends them to the right place.
 
 **Script load order matters.** Every page loads its `<script>` tags in
-the same order: `config.js` → `cars-data.js` → `ui.js` → `auth.js` →
-`shop.js` → `contact.js` → `nav-search.js`, then the third-party SDKs
-(Google/Facebook/EmailJS), then `layout.js` (or `script.js` on
+the same order: `config.js` → `cars-data.js` → `ui.js` → `page-loader.js` →
+`auth.js` → `shop.js` → `contact.js` → `nav-search.js`, then the third-party
+SDKs (Google/Facebook/EmailJS), then `layout.js` (or `script.js` on
 index.html), then that page's own script last. Later files rely on
 functions defined in earlier ones being already loaded.
 
@@ -140,7 +143,8 @@ in [SETUP.md](SETUP.md#good-to-know):
   real customer accounts.
 - **Checkout doesn't charge a real card.** A browser alone can't safely
   do that; this simulates the full flow (validation, a real saved order,
-  an optional email receipt) short of actually moving money.
+  optional receipt + dealership-notification emails) short of actually
+  moving money.
 - **Data is per-browser, not shared.** No account data, orders, or
   uploaded photos sync across devices — there's no database.
 - **Google/Facebook login need your own free credentials** to actually

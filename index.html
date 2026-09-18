@@ -4,13 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoGod</title>
+    <title>AutoGod — New &amp; Certified Pre-Owned Vehicles</title>
+
+    <!-- SEO -->
+    <meta name="description" content="AutoGod is a car dealership offering new and certified pre-owned vehicles — SUVs, sedans, electric cars, trucks, and more. Browse inventory, book a test drive, and get financing help.">
+    <meta name="keywords" content="car dealership, buy a car, new cars, used cars, SUV, sedan, electric vehicle, test drive, car financing">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (Facebook, LinkedIn, etc.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AutoGod">
+    <meta property="og:title" content="AutoGod — New &amp; Certified Pre-Owned Vehicles">
+    <meta property="og:description" content="Browse SUVs, sedans, electric vehicles, and more. Book a test drive or get financing help today.">
+    <meta property="og:image" content="image/home-img.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AutoGod — New &amp; Certified Pre-Owned Vehicles">
+    <meta name="twitter:description" content="Browse SUVs, sedans, electric vehicles, and more. Book a test drive or get financing help today.">
+    <meta name="twitter:image" content="image/home-img.png">
+
     <link rel="icon" href="image/favicon.png">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+
+<!-- Page-transition loader: starts visible (class="active") so it's the
+     very first thing painted, masking any flash of half-loaded content.
+     js/page-loader.js fades it out once the page is ready, and re-shows
+     it briefly before navigating to another page. -->
+<div class="loader-container active">
+    <img src="image/loader.gif" alt="Loading">
+</div>
 
 <div id="fb-root"></div>
 
@@ -80,7 +107,12 @@
         <h3 id="auth-heading">user login</h3>
         <input type="text" placeholder="full name" class="box" id="fullname-field" name="fullname">
         <input type="email" placeholder="email" class="box" name="email" required>
-        <input type="password" placeholder="password" class="box" name="password" required>
+        <div class="password-field-wrapper">
+            <input type="password" placeholder="password" class="box" name="password" id="password-input" required>
+            <button type="button" class="toggle-password-btn" id="toggle-password-btn" aria-label="show password">
+                <i class="fas fa-eye"></i>
+            </button>
+        </div>
         <p id="forgot-row"> forget your password <a href="#" id="forgot-password-link">click here</a> </p>
         <input type="submit" value="login" class="btn" id="auth-submit">
         <p>or login with</p>
@@ -104,7 +136,7 @@
 
     <h3 data-speed="-2" class="home-parallax">find your car</h3>
 
-    <img data-speed="5" class="home-parallax" src="image/home-img.png" alt="">
+    <img data-speed="5" class="home-parallax" src="image/home-img.png" alt="Lineup of three AutoGod vehicles: a white SUV, a blue crossover, and a red sedan">
 
     <!-- Protected CTA: "explore cars" is the main hero call-to-action. Logged
          out, it opens the login/signup modal and remembers vehicles.html as
@@ -181,7 +213,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="vehicle-1"><i class="far fa-heart"></i></button>
-                <img src="image/vehicle-1.png" alt="">
+                <img src="image/vehicle-1.png" alt="AutoGod Horizon GT sports coupe">
                 <div class="content">
                     <h3>Horizon GT</h3>
                     <div class="price"> <span>price : </span> $68,500/- </div>
@@ -198,7 +230,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="vehicle-2"><i class="far fa-heart"></i></button>
-                <img src="image/vehicle-2.png" alt="">
+                <img src="image/vehicle-2.png" alt="AutoGod Voyager SUV">
                 <div class="content">
                     <h3>Voyager SUV</h3>
                     <div class="price"> <span>price : </span> $54,900/- </div>
@@ -215,7 +247,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="vehicle-3"><i class="far fa-heart"></i></button>
-                <img src="image/vehicle-3.png" alt="">
+                <img src="image/vehicle-3.png" alt="AutoGod Falcon Roadster convertible">
                 <div class="content">
                     <h3>Falcon Roadster</h3>
                     <div class="price"> <span>price : </span> $72,300/- </div>
@@ -232,7 +264,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="vehicle-4"><i class="far fa-heart"></i></button>
-                <img src="image/vehicle-4.png" alt="">
+                <img src="image/vehicle-4.png" alt="AutoGod Terra X off-road SUV">
                 <div class="content">
                     <h3>Terra X</h3>
                     <div class="price"> <span>price : </span> $61,200/- </div>
@@ -249,7 +281,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="vehicle-5"><i class="far fa-heart"></i></button>
-                <img src="image/vehicle-5.png" alt="">
+                <img src="image/vehicle-5.png" alt="AutoGod Volt-E electric sedan">
                 <div class="content">
                     <h3>Volt-E</h3>
                     <div class="price"> <span>price : </span> $58,750/- </div>
@@ -266,7 +298,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="vehicle-6"><i class="far fa-heart"></i></button>
-                <img src="image/vehicle-6.png" alt="">
+                <img src="image/vehicle-6.png" alt="AutoGod Ranger Pro pickup truck">
                 <div class="content">
                     <h3>Ranger Pro</h3>
                     <div class="price"> <span>price : </span> $49,999/- </div>
@@ -372,7 +404,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="car-1"><i class="far fa-heart"></i></button>
-                <img src="image/car-1.png" alt="">
+                <img src="image/car-1.png" alt="AutoGod Nova Sedan">
                 <div class="content">
                     <h3>Nova Sedan</h3>
                     <div class="stars">
@@ -389,7 +421,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="car-2"><i class="far fa-heart"></i></button>
-                <img src="image/car-2.png" alt="">
+                <img src="image/car-2.png" alt="AutoGod Zenith Luxury sedan">
                 <div class="content">
                     <h3>Zenith Luxury</h3>
                     <div class="stars">
@@ -406,7 +438,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="car-3"><i class="far fa-heart"></i></button>
-                <img src="image/car-3.png" alt="">
+                <img src="image/car-3.png" alt="AutoGod Rally X5 hot hatch">
                 <div class="content">
                     <h3>Rally X5</h3>
                     <div class="stars">
@@ -423,7 +455,7 @@
 
             <div class="swiper-slide box">
                 <button class="wishlist-btn" data-id="car-4"><i class="far fa-heart"></i></button>
-                <img src="image/car-4.png" alt="">
+                <img src="image/car-4.png" alt="AutoGod Cascade Hybrid crossover">
                 <div class="content">
                     <h3>Cascade Hybrid</h3>
                     <div class="stars">
@@ -440,7 +472,7 @@
 
             <div class="swiper-slide box">
                  <button class="wishlist-btn" data-id="car-5"><i class="far fa-heart"></i></button>
-                 <img src="image/car-5.png" alt="">
+                 <img src="image/car-5.png" alt="AutoGod Titan 4x4 off-roader">
                  <div class="content">
                      <h3>Titan 4x4</h3>
                      <div class="stars">
@@ -457,7 +489,7 @@
  
              <div class="swiper-slide box">
                  <button class="wishlist-btn" data-id="car-6"><i class="far fa-heart"></i></button>
-                 <img src="image/car-6.png" alt="">
+                 <img src="image/car-6.png" alt="AutoGod Comet GTX muscle car">
                  <div class="content">
                      <h3>Comet GTX</h3>
                      <div class="stars">
@@ -474,7 +506,7 @@
  
              <div class="swiper-slide box">
                  <button class="wishlist-btn" data-id="car-7"><i class="far fa-heart"></i></button>
-                 <img src="image/car-7.png" alt="">
+                 <img src="image/car-7.png" alt="AutoGod Aura Minivan">
                  <div class="content">
                      <h3>Aura Minivan</h3>
                      <div class="stars">
@@ -491,7 +523,7 @@
  
              <div class="swiper-slide box">
                  <button class="wishlist-btn" data-id="car-8"><i class="far fa-heart"></i></button>
-                 <img src="image/car-8.png" alt="">
+                 <img src="image/car-8.png" alt="AutoGod Blitz Turbo sports sedan">
                  <div class="content">
                      <h3>Blitz Turbo</h3>
                      <div class="stars">
@@ -553,7 +585,7 @@
         <div class="swiper-wrapper">
 
             <div class="swiper-slide box">
-                <img src="image/pic-1.png" alt="">
+                <img src="image/pic-1.png" alt="Marcus Bello">
                 <div class="content">
                     <p>The whole process was quicker than I expected. I found the SUV I wanted, got a fair trade-in value, and drove off the lot that same afternoon.</p>
                     <h3>Marcus Bello</h3>
@@ -568,7 +600,7 @@
             </div>
 
             <div class="swiper-slide box">
-                <img src="image/pic-2.png" alt="">
+                <img src="image/pic-2.png" alt="Aisha Grant">
                 <div class="content">
                     <p>I was nervous about financing, but the team walked me through every option and got me a rate I was actually happy with. Highly recommend.</p>
                     <h3>Aisha Grant</h3>
@@ -583,7 +615,7 @@
             </div>
 
             <div class="swiper-slide box">
-                <img src="image/pic-3.png" alt="">
+                <img src="image/pic-3.png" alt="Daniel Okafor">
                 <div class="content">
                     <p>Booked a test drive online and my car was ready when I arrived. No pressure, no games, just honest answers to every question I had.</p>
                     <h3>Daniel Okafor</h3>
@@ -598,7 +630,7 @@
             </div>
 
             <div class="swiper-slide box">
-                <img src="image/pic-4.png" alt="">
+                <img src="image/pic-4.png" alt="Priya Anand">
                 <div class="content">
                     <p>Six months in and my car is still running perfectly. Their service team has been just as helpful after the sale as they were before it.</p>
                     <h3>Priya Anand</h3>
@@ -613,7 +645,7 @@
             </div>
 
             <div class="swiper-slide box">
-                <img src="image/pic-5.png" alt="">
+                <img src="image/pic-5.png" alt="Lucas Ferreira">
                 <div class="content">
                     <p>Traded in my old truck for a Ranger Pro and couldn't be happier. The staff clearly know their vehicles inside and out.</p>
                     <h3>Lucas Ferreira</h3>
@@ -628,7 +660,7 @@
             </div>
 
             <div class="swiper-slide box">
-                <img src="image/pic-6.png" alt="">
+                <img src="image/pic-6.png" alt="Emily Chen">
                 <div class="content">
                     <p>From browsing online to picking up the keys, everything felt transparent. This is the third car I've bought from AutoGod, and it won't be the last.</p>
                     <h3>Emily Chen</h3>
@@ -740,6 +772,7 @@
 <script src="js/config.js"></script>
 <script src="js/cars-data.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/page-loader.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/shop.js"></script>
 <script src="js/contact.js"></script>

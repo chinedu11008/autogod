@@ -5,11 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoGod — Checkout</title>
+
+    <!-- SEO: a checkout page has nothing worth indexing or sharing. -->
+    <meta name="description" content="Complete your AutoGod vehicle purchase.">
+    <meta name="robots" content="noindex, nofollow">
+
     <link rel="icon" href="image/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+
+<!-- Page-transition loader: starts visible (class="active") so it's the
+     very first thing painted, masking any flash of half-loaded content.
+     js/page-loader.js fades it out once the page is ready, and re-shows
+     it briefly before navigating to another page. -->
+<div class="loader-container active">
+    <img src="image/loader.gif" alt="Loading">
+</div>
 
 <div id="fb-root"></div>
 
@@ -78,7 +91,12 @@
         <h3 id="auth-heading">user login</h3>
         <input type="text" placeholder="full name" class="box" id="fullname-field" name="fullname">
         <input type="email" placeholder="email" class="box" name="email" required>
-        <input type="password" placeholder="password" class="box" name="password" required>
+        <div class="password-field-wrapper">
+            <input type="password" placeholder="password" class="box" name="password" id="password-input" required>
+            <button type="button" class="toggle-password-btn" id="toggle-password-btn" aria-label="show password">
+                <i class="fas fa-eye"></i>
+            </button>
+        </div>
         <p id="forgot-row"> forget your password <a href="#" id="forgot-password-link">click here</a> </p>
         <input type="submit" value="login" class="btn" id="auth-submit">
         <p>or login with</p>
@@ -216,6 +234,7 @@
 <script src="js/config.js"></script>
 <script src="js/cars-data.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/page-loader.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/shop.js"></script>
 <script src="js/contact.js"></script>

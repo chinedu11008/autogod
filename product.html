@@ -5,11 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoGod — Vehicle Details</title>
+
+    <!-- SEO: gated behind login (see js/product.js: requireLogin()), so it's
+         marked noindex — but OG/Twitter tags are still worth having, since a
+         customer sharing a link to a specific car ("check out this one!")
+         still benefits from a real preview card. js/product.js fills in the
+         id="..." tags below with the actual car's name/description/image
+         once it knows which one is being viewed. -->
+    <meta id="meta-description" name="description" content="Browse full specifications, pricing, and photos for AutoGod's vehicle inventory.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <meta property="og:type" content="website">
+    <meta id="og-site-name" property="og:site_name" content="AutoGod">
+    <meta id="og-title" property="og:title" content="AutoGod — Vehicle Details">
+    <meta id="og-description" property="og:description" content="Browse full specifications, pricing, and photos for AutoGod's vehicle inventory.">
+    <meta id="og-image" property="og:image" content="image/home-img.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta id="twitter-title" name="twitter:title" content="AutoGod — Vehicle Details">
+    <meta id="twitter-description" name="twitter:description" content="Browse full specifications, pricing, and photos for AutoGod's vehicle inventory.">
+    <meta id="twitter-image" name="twitter:image" content="image/home-img.png">
+
     <link rel="icon" href="image/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+
+<!-- Page-transition loader: starts visible (class="active") so it's the
+     very first thing painted, masking any flash of half-loaded content.
+     js/page-loader.js fades it out once the page is ready, and re-shows
+     it briefly before navigating to another page. -->
+<div class="loader-container active">
+    <img src="image/loader.gif" alt="Loading">
+</div>
 
 <div id="fb-root"></div>
 
@@ -78,7 +107,12 @@
         <h3 id="auth-heading">user login</h3>
         <input type="text" placeholder="full name" class="box" id="fullname-field" name="fullname">
         <input type="email" placeholder="email" class="box" name="email" required>
-        <input type="password" placeholder="password" class="box" name="password" required>
+        <div class="password-field-wrapper">
+            <input type="password" placeholder="password" class="box" name="password" id="password-input" required>
+            <button type="button" class="toggle-password-btn" id="toggle-password-btn" aria-label="show password">
+                <i class="fas fa-eye"></i>
+            </button>
+        </div>
         <p id="forgot-row"> forget your password <a href="#" id="forgot-password-link">click here</a> </p>
         <input type="submit" value="login" class="btn" id="auth-submit">
         <p>or login with</p>
@@ -161,6 +195,7 @@
 <script src="js/config.js"></script>
 <script src="js/cars-data.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/page-loader.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/shop.js"></script>
 <script src="js/contact.js"></script>

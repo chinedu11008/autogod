@@ -22,6 +22,7 @@ function handleNavSearch(e) {
   const target = "vehicles.html" + (query ? ("?search=" + encodeURIComponent(query)) : "");
 
   if (getSession()) {
+    if (typeof showPageLoader === "function") showPageLoader();
     window.location.href = target; // logged in — go straight there
     return;
   }

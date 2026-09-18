@@ -67,6 +67,25 @@ function renderProduct() {
 
   document.title = "AutoGod — " + car.name;
 
+  // Fill in the meta/OG/Twitter tags added to product.html's <head> with
+  // this specific car's info, so sharing a product link (even though the
+  // page itself is login-gated) shows a real preview card instead of the
+  // generic fallback text.
+  const setMeta = (id, content) => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute("content", content);
+  };
+  const shortDescription = car.description.length > 155
+    ? car.description.slice(0, 152) + "..."
+    : car.description;
+  setMeta("meta-description", shortDescription);
+  setMeta("og-title", car.name + " — " + formatPrice(car.price));
+  setMeta("og-description", shortDescription);
+  setMeta("og-image", car.image);
+  setMeta("twitter-title", car.name + " — " + formatPrice(car.price));
+  setMeta("twitter-description", shortDescription);
+  setMeta("twitter-image", car.image);
+
   // Everything below is built as one HTML string and injected in a
   // single innerHTML write, then event listeners are attached
   // afterward (they can't survive the innerHTML write itself).
@@ -146,6 +165,7 @@ function renderProduct() {
   document.getElementById("buy-now-btn").addEventListener("click", () => {
     // "Buy Now" = add to cart, then skip straight to checkout
     addToCart(car.id, currentQty);
+    if (typeof showPageLoader === "function") showPageLoader();
     window.location.href = "checkout.html";
   });
 

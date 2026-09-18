@@ -5,10 +5,10 @@
    can't safely charge a card (that needs a PCI-compliant
    backend). This simulates a FULL checkout — real validation,
    a fake "processing" delay, and a genuine order saved to the
-   customer's dashboard — and optionally emails an order
-   confirmation via EmailJS if that's configured in js/config.js
-   (separate from the contact form, which uses Formspree —
-   see js/contact.js).
+   customer's dashboard — and optionally emails BOTH a receipt
+   to the customer AND a new-order alert to the dealership via
+   EmailJS, if that's configured in js/config.js (separate from
+   the contact form, which uses Formspree — see js/contact.js).
 
    CATEGORIES IN THIS FILE
      1. Order-summary sidebar
@@ -117,21 +117,35 @@ function validateCheckoutForm(form) {
    CATEGORY 3: PLACING THE ORDER
    ========================================================= */
 
-// Optional: if EmailJS is configured (js/config.js), send the
-// customer a receipt. emailJsReady() lives in contact.js — this
-// is a completely separate email from the contact-form/Formspree
-// flow, just sharing the same EmailJS SDK setup.
+// Optional: if EmailJS is configured (js/config.js), sends TWO emails
+// using the same template — a receipt to the customer, and a separate
+// new-order alert to the dealership (AUTOGOD_CONFIG.OWNER_EMAIL) so
+// someone actually finds out a sale happened. Without this configured,
+// the only record of an order is the customer's own dashboard — see
+// SETUP.md's "before going live" notes.
+// emailJsReady() lives in contact.js — this is a completely separate
+// email from the contact-form/Formspree flow, just sharing the same
+// EmailJS SDK setup.
 function sendOrderConfirmationEmail(order) {
   if (!emailJsReady("EMAILJS_ORDER_TEMPLATE_ID")) return;
   const itemsText = order.items.map(i => `${i.name} x${i.qty} — ${formatPrice(i.lineTotal)}`).join("\n");
-  emailjs.send(AUTOGOD_CONFIG.EMAILJS_SERVICE_ID, AUTOGOD_CONFIG.EMAILJS_ORDER_TEMPLATE_ID, {
+  const baseParams = {
     order_id: order.orderId,
     customer_name: order.customerName,
     customer_email: order.customerEmail,
     items: itemsText,
-    total: formatPrice(order.total),
-    to_email: AUTOGOD_CONFIG.OWNER_EMAIL
-  }).catch(err => console.error("Order email failed:", err)); // best-effort — never blocks the order itself
+    total: formatPrice(order.total)
+  };
+
+  // 1) Receipt — to the customer
+  emailjs.send(AUTOGOD_CONFIG.EMAILJS_SERVICE_ID, AUTOGOD_CONFIG.EMAILJS_ORDER_TEMPLATE_ID,
+    Object.assign({}, baseParams, { to_email: order.customerEmail })
+  ).catch(err => console.error("Customer receipt email failed:", err));
+
+  // 2) New-order alert — to the dealership, so a real person finds out
+  emailjs.send(AUTOGOD_CONFIG.EMAILJS_SERVICE_ID, AUTOGOD_CONFIG.EMAILJS_ORDER_TEMPLATE_ID,
+    Object.assign({}, baseParams, { to_email: AUTOGOD_CONFIG.OWNER_EMAIL })
+  ).catch(err => console.error("Owner notification email failed:", err)); // best-effort — never blocks the order itself
 }
 
 // The actual "transaction": builds one order record, saves it

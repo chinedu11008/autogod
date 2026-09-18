@@ -201,11 +201,11 @@ var swiper = new Swiper(".review-slider", {
 });
 
 /* ---------- CATEGORY 6: Page loader helpers ----------
-   Adds the .loader-container's "active" class (a full-page
-   spinner overlay, see style.css) after a delay — as shipped,
-   nothing in the codebase actually calls fadeOut() to trigger
-   this, so it's effectively inert; left as-is from the original
-   template rather than removing unused code. */
+   These two functions are exactly as the original template shipped
+   them — still never called by anything, so still effectively dead
+   code. A REAL, working page-transition loader now exists, just not
+   here: see js/page-loader.js (shared across every page) and the
+   .loader-container element at the top of each page's <body>. */
 function loader(){
   document.querySelector('.loader-container').classList.add('active');
 }
